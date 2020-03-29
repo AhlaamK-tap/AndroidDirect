@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.View;
 
 import java.math.BigDecimal;
 
@@ -111,7 +112,7 @@ public class MainActivity extends AppCompatActivity {
                 String displayResponse = "";
 
                  resource = response.body();
-                startWebActivity();
+              //  startWebActivity();
                 //  System.out.println("resource = " + resource.getData() + ", response = " + response);
 
             }
@@ -147,4 +148,12 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    public void startwebview(View view) {
+        if(resource!=null){
+            Intent intent = new Intent(this ,WebViewActivity.class);
+            intent.putExtra("webview",resource.getTransaction().getUrl());
+            startActivity(intent);
+
+        }
+    }
 }
