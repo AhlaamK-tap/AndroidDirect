@@ -20,8 +20,11 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         apiInterface = APIClient.getClient().create(APIInterface.class);
+        callInit();
 
+    }
 
+    private void callInit(){
         /**
          GET List Resources
          **/
@@ -36,7 +39,7 @@ public class MainActivity extends AppCompatActivity {
                 String displayResponse = "";
 
                 SDKSettings resource = response.body();
-                System.out.println("resource = " + resource.getData() + ", response = " + response);
+              //  System.out.println("resource = " + resource.getData() + ", response = " + response);
 
             }
 
