@@ -7,6 +7,7 @@ import android.util.Log;
 
 import company.tap.ibtikarat.connection.APIClient;
 import company.tap.ibtikarat.connection.APIInterface;
+import company.tap.ibtikarat.connection.AppInfo;
 import company.tap.ibtikarat.responses.SDKSettings;
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -18,7 +19,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-
+        AppInfo.setAuthToken(this,"sk_test_5lnTBxghrvMSJNGibWj6u7oU","");
         apiInterface = APIClient.getClient().create(APIInterface.class);
         callInit();
 
