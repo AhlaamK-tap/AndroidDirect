@@ -156,8 +156,6 @@ public class MainActivity extends AppCompatActivity {
             intent.putExtra("webview",resource.getTransaction().getUrl());
             intent.putExtra("chargid",resource.getId());
             startActivity(intent);
-            finish();
-
         }
     }
     private void setChargeOrAuthorize(Charge chargeOrAuthorize) {

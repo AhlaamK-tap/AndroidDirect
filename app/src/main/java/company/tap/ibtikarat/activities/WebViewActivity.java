@@ -2,6 +2,7 @@ package company.tap.ibtikarat.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.os.Build;
 import android.os.Bundle;
@@ -118,7 +119,7 @@ public class WebViewActivity extends AppCompatActivity {
               //  resource = response.body();
                 if(response!=null){
                     Toast.makeText(WebViewActivity.this, response.body().getId(), Toast.LENGTH_SHORT).show();
-                    finish();
+                    finishActivityWithResultCodeOK(response.body().getId());
                 }
 
                 //  System.out.println("resource = " + resource.getData() + ", response = " + response);
@@ -133,6 +134,9 @@ public class WebViewActivity extends AppCompatActivity {
         });
     }
     }
-
+    private void finishActivityWithResultCodeOK(String charge) {
+        setResult(RESULT_OK,new Intent().putExtra("charge", charge));
+        finish();
+    }
 
 }
