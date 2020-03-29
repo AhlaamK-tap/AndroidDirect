@@ -16,14 +16,16 @@ import android.webkit.WebViewClient;
 import android.widget.Toast;
 
 import company.tap.ibtikarat.R;
+import company.tap.ibtikarat.callbacks.GoSellError;
 import company.tap.ibtikarat.connection.APIClient;
 import company.tap.ibtikarat.connection.APIInterface;
+import company.tap.ibtikarat.interfaces.IPaymentProcessListener;
 import company.tap.ibtikarat.models.Charge;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class WebViewActivity extends AppCompatActivity {
+public class WebViewActivity extends AppCompatActivity implements IPaymentProcessListener {
     WebView webview;
     String url;
     String returnURL;
@@ -45,6 +47,37 @@ public class WebViewActivity extends AppCompatActivity {
             settings.setJavaScriptEnabled(true);
            webview.loadUrl(url);
         }
+    }
+
+    @Override
+    public void didReceiveCharge(Charge charge) {
+        if (charge != null) {
+            Log.d("didReceiveCharge"," web payment activity* * * " + charge.getStatus());
+            switch (charge.getStatus()) {
+                case INITIATED:
+                    break;
+                case CAPTURED:
+                case AUTHORIZED:
+                    finishActivityWithResultCodeOK(charge.getId());
+                    break;
+                case FAILED:
+                case ABANDONED:
+                case CANCELLED:
+                case DECLINED:
+                case RESTRICTED:
+                case UNKNOWN:
+                case TIMEDOUT:
+                case VOID:
+                    finishActivityWithResultCodeOK(charge.getId());
+                    break;
+            }
+        }
+       // obtainPaymentURLFromChargeOrAuthorize(charge);
+    }
+
+    @Override
+    public void didReceiveError(GoSellError error) {
+
     }
 
     private class WebPaymentWebViewClient extends WebViewClient {
@@ -117,13 +150,11 @@ public class WebViewActivity extends AppCompatActivity {
                 String displayResponse = "";
 
               //  resource = response.body();
+                //Gets Response shows toast and pass to intent.
                 if(response!=null){
                     Toast.makeText(WebViewActivity.this, response.body().getId(), Toast.LENGTH_SHORT).show();
                     finishActivityWithResultCodeOK(response.body().getId());
                 }
-
-                //  System.out.println("resource = " + resource.getData() + ", response = " + response);
-
             }
 
             @Override
@@ -138,5 +169,6 @@ public class WebViewActivity extends AppCompatActivity {
         setResult(RESULT_OK,new Intent().putExtra("charge", charge));
         finish();
     }
+
 
 }
