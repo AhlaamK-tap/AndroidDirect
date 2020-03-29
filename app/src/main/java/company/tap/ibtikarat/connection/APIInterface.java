@@ -7,6 +7,7 @@ import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
+import retrofit2.http.Path;
 
 /**
  * Created by AhlaamK on 3/29/20.
@@ -26,5 +27,15 @@ public interface APIInterface {
      */
     @POST(API_Constants.CHARGES)
     Call<Charge> createCharge(@Body CreateChargeRequest createChargeRequest);
+
+    /**
+     * Retrieve charge call.
+     *
+     * @param chargeId the charge id
+     * @return the call
+     */
+    @GET(API_Constants.CHARGES + "/{" + API_Constants.CHARGE_ID + "}")
+    Call<Charge> retrieveCharge(@Path(API_Constants.CHARGE_ID) String chargeId);
+
 
 }

@@ -28,6 +28,7 @@ import retrofit2.Response;
 public class MainActivity extends AppCompatActivity {
     APIInterface apiInterface;
     Charge resource;
+    Charge chargeOrAuthorize;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -77,7 +78,7 @@ public class MainActivity extends AppCompatActivity {
          GET List Resources
          **/
         SourceRequest source = new SourceRequest("src_kw.knet");
-        TrackingURL redirect = new TrackingURL("gosellsdk://return_ur");
+        TrackingURL redirect = new TrackingURL("gosellsdk://return_url");
         Merchant merchant=null;
 
         CreateChargeRequest chargeRequest = new CreateChargeRequest(
@@ -112,6 +113,7 @@ public class MainActivity extends AppCompatActivity {
                 String displayResponse = "";
 
                  resource = response.body();
+                 setChargeOrAuthorize(response.body());
               //  startWebActivity();
                 //  System.out.println("resource = " + resource.getData() + ", response = " + response);
 
@@ -152,8 +154,14 @@ public class MainActivity extends AppCompatActivity {
         if(resource!=null){
             Intent intent = new Intent(this ,WebViewActivity.class);
             intent.putExtra("webview",resource.getTransaction().getUrl());
+            intent.putExtra("chargid",resource.getId());
             startActivity(intent);
+            finish();
 
         }
     }
+    private void setChargeOrAuthorize(Charge chargeOrAuthorize) {
+        this.chargeOrAuthorize = chargeOrAuthorize;
+    }
+
 }
